@@ -1,12 +1,13 @@
-import { RequestHandler } from "express";
 import PostModel from "../models/post.models";
+import asyncHandler from "../lib/async-handler";
+import ApiResponse from "../lib/api-response";
 
-export const getPosts: RequestHandler = async (req, res) => {
+export const getPosts = asyncHandler(async (req, res) => {
   const posts = await PostModel.find();
-  res.status(200).json({ posts });
-};
+  res.status(200).json(new ApiResponse("Fetched posts successfully", posts));
+});
 
-export const getPost: RequestHandler = async (req, res) => {
+export const getPost = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
@@ -20,10 +21,10 @@ export const getPost: RequestHandler = async (req, res) => {
     return;
   }
 
-  res.status(200).json({ post });
-};
+  res.status(200).json(new ApiResponse("Fetch post successfully", post));
+});
 
-export const createPost: RequestHandler = async (req, res) => {
+export const createPost = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
 
   if (!title || !content) {
@@ -31,28 +32,28 @@ export const createPost: RequestHandler = async (req, res) => {
     return;
   }
 
-  const post =await PostModel.create({title,content});
+  const post = await PostModel.create({ title, content });
 
-  if (!post){
-    res.status(500).json({message:"Unable to create post. Try again"});
+  if (!post) {
+    res.status(500).json({ message: "Unable to create post. Try again" });
     return;
   }
 
-  res.status(201).json({post});
-};
+  res.status(201).json(new ApiResponse("Post created successfully", post));
+});
 
-export const deletePost: RequestHandler = async (req,res)=>{
-  const {id} = req.params;
+export const deletePost = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-  if (!id){
-    res.status(400).json({message:"Post id is required"});
+  if (!id) {
+    res.status(400).json({ message: "Post id is required" });
     return;
   }
 
-  const deletedPost = await PostModel.deleteOne({_id:id});
-  if (deletedPost.deletedCount === 0){
-    res.status(404).json({message:"Post not found"});
+  const deletedPost = await PostModel.deleteOne({ _id: id });
+  if (deletedPost.deletedCount === 0) {
+    res.status(404).json({ message: "Post not found" });
     return;
   }
   res.status(204).send();
-}
+});
