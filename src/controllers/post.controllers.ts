@@ -1,5 +1,6 @@
 import { HTTP_CODES } from "../constants";
 import { ApiError, ApiResponse, asyncHandler } from "../lib";
+import { idSchema } from "../lib/validation";
 import PostModel from "../models/post.models";
 
 export const getPosts = asyncHandler(async (req, res) => {
@@ -10,9 +11,10 @@ export const getPosts = asyncHandler(async (req, res) => {
 export const getPost = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  if (!id) {
-    res.status(400).json({ message: "Post id is required" });
-    return;
+  const result = idSchema.safeParse(id);
+  
+  if (!result.success) {
+    throw new ApiError(HTTP_CODES.BAD_REQUEST, "Invalid post id");
   }
 
   const post = await PostModel.findById(id);
