@@ -1,6 +1,6 @@
+import { HTTP_CODES } from "../constants";
+import { ApiError, ApiResponse, asyncHandler } from "../lib";
 import PostModel from "../models/post.models";
-import asyncHandler from "../lib/async-handler";
-import ApiResponse from "../lib/api-response";
 
 export const getPosts = asyncHandler(async (req, res) => {
   const posts = await PostModel.find();
@@ -17,8 +17,7 @@ export const getPost = asyncHandler(async (req, res) => {
 
   const post = await PostModel.findById(id);
   if (!post) {
-    res.status(404).json({ message: "Post not found" });
-    return;
+    throw new ApiError(HTTP_CODES.NOT_FOUND, "Post not found");
   }
 
   res.status(200).json(new ApiResponse("Fetch post successfully", post));
@@ -35,8 +34,7 @@ export const createPost = asyncHandler(async (req, res) => {
   const post = await PostModel.create({ title, content });
 
   if (!post) {
-    res.status(500).json({ message: "Unable to create post. Try again" });
-    return;
+    throw new ApiError(HTTP_CODES.INTERNAL_SERVER_ERROR, "Unable to create post. Try again");
   }
 
   res.status(201).json(new ApiResponse("Post created successfully", post));
@@ -51,9 +49,10 @@ export const deletePost = asyncHandler(async (req, res) => {
   }
 
   const deletedPost = await PostModel.deleteOne({ _id: id });
+
   if (deletedPost.deletedCount === 0) {
-    res.status(404).json({ message: "Post not found" });
-    return;
+    throw new ApiError(HTTP_CODES.NOT_FOUND, "Post not found");
   }
+
   res.status(204).send();
 });

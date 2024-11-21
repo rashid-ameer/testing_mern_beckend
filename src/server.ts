@@ -1,7 +1,7 @@
 import "dotenv/config";
 import app from "./app";
 import { PORT } from "./constants/env";
-import connectDB from "./lib/db";
+import { connectDB } from "./lib";
 
 // health check
 app.get("/", (req, res) => {
