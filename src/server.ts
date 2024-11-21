@@ -1,6 +1,6 @@
 import "dotenv/config";
 import app from "./app";
-import { PORT } from "./constants/env";
+import { NODE_ENV, PORT } from "./constants/env";
 import { connectDB } from "./lib";
 
 // health check
@@ -10,6 +10,6 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   connectDB().then(() => {
-    console.log(`Server is listening on port ${PORT}`);
+    console.log(`Server is listening on port ${PORT} in ${NODE_ENV} environment`);
   });
 });

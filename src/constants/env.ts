@@ -10,4 +10,5 @@ const getEnv = (key: string, defaultValue?: string) => {
 
 export const PORT = getEnv("PORT");
 export const MONGODB_URI = getEnv("MONGODB_URI");
+export const NODE_ENV = getEnv("NODE_ENV");
 
