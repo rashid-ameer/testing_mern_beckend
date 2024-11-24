@@ -1,9 +1,20 @@
+import { HTTP_CODES } from "../constants";
 import { ApiResponse, asyncHandler } from "../lib";
-import { createPostSchema, idSchema } from "../lib/validation";
-import { createPost, deletePost, getPost, getPosts } from "../services/post.services";
+import {
+  createPostSchema,
+  idSchema,
+  updatePostSchema,
+} from "../lib/validation";
+import {
+  createPost,
+  deletePost,
+  getPost,
+  getPosts,
+  updatePost,
+} from "../services/post.services";
 
 export const getPostsHandler = asyncHandler(async (req, res) => {
-  const posts = getPosts();
+  const posts = await getPosts();
   res.status(200).json(new ApiResponse("Fetched posts successfully", posts));
 });
 
@@ -23,4 +34,12 @@ export const deletePostHandler = asyncHandler(async (req, res) => {
   const result = idSchema.parse(req.params.id);
   await deletePost(result);
   res.status(204).send();
+});
+
+export const getUpdatePostHandler = asyncHandler(async (req, res) => {
+  const result = updatePostSchema.parse({ id: req.params.id, ...req.body });
+  const updatedPost = await updatePost(result);
+  res
+    .status(HTTP_CODES.OK)
+    .json(new ApiResponse("Post updated successfully", updatedPost));
 });

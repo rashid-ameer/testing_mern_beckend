@@ -6,6 +6,12 @@ export const idSchema = z.string().refine((id)=> mongoose.Types.ObjectId.isValid
 })
 
 export const createPostSchema = z.object({
-  title: z.string({required_error:"Post title is required", invalid_type_error:"Post title must be string"}).trim(),
-  content: z.string({required_error:"Post title is required", invalid_type_error:"Post title must be string"}).trim()
+  title: z.coerce.string({required_error:"Post title is required"}).trim(),
+  content: z.coerce.string({required_error:"Post title is required"}).trim()
+})
+
+export const updatePostSchema = z.object({
+  id: idSchema,
+  title: z.coerce.string().optional(),
+  content: z.coerce.string().optional(),
 })
