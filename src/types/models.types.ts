@@ -6,3 +6,13 @@ export interface IPost extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IUser extends Document {
+  username: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
