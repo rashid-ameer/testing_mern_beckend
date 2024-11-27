@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IVerificationCode } from "../types/models.types";
+import { IVerificationCode } from "../types/verification-code.types";
 
 const verificationCodeSchema = new mongoose.Schema<IVerificationCode>(
   {

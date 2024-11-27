@@ -12,7 +12,9 @@ type CreateUser = {
   password: string;
 }
 export const createUser = async(data: CreateUser)=>{
-  const existingUser = await UserModel.find({email: data.email});
+  const existingUser = await UserModel.findOne({email: data.email});
+  console.log(existingUser);
+  
   if (existingUser){
     throw new ApiError(HTTP_CODES.CONFLICT, "Email already exists");
   }
