@@ -1,6 +1,6 @@
 import express from "express";
 import { errorHandler } from "./middlewares";
-import { postRoutes, userRoutes } from "./routes";
+import { postRoutes, userRoutes,authRoutes } from "./routes";
 
 // creating app
 const app = express();
@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use("/post", postRoutes);
+app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 
 // error handler middleware
