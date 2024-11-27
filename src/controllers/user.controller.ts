@@ -1,7 +1,8 @@
 import { HTTP_CODES } from "../constants";
 import { ApiResponse, asyncHandler } from "../lib";
 import { getHashPassword } from "../lib/password";
-import { createUserSchema, idSchema } from "../lib/validation";
+import { idSchema } from "../schemas/common.schemas";
+import { createUserSchema } from "../schemas/user.schemas";
 import { createUser, getUser } from "../services/user.services";
 
 export const createUserHandler = asyncHandler(async (req,res)=>{

@@ -1,10 +1,10 @@
 import { HTTP_CODES } from "../constants";
 import { ApiResponse, asyncHandler } from "../lib";
+import { idSchema } from "../schemas/common.schemas";
 import {
   createPostSchema,
-  idSchema,
   updatePostSchema,
-} from "../lib/validation";
+} from "../schemas/post.schemas";
 import {
   createPost,
   deletePost,
