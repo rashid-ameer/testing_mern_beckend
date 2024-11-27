@@ -1,0 +1,6 @@
+enum VericationType {
+  EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
+  PASSWORD_VERIFICATION = "PASSWORD_VERIFICATION",
+}
+
+export default VericationType;

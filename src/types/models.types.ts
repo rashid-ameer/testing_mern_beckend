@@ -1,4 +1,5 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
+import { VericationType } from "../constants";
 
 export interface IPost extends Document {
   title: string;
@@ -15,4 +16,11 @@ export interface IUser extends Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface IVerificationCode extends Document{
+  userId: mongoose.Types.ObjectId,
+  type: VericationType,
+  code: string,
+  expiryDate: Date
 }
